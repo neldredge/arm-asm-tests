@@ -7,7 +7,7 @@
 	.extern free
 	.extern abort
 push:
-	stp x19, x30, [sp, -16]!
+	str x30, [sp, -16]!
 	stp x20, x21, [sp, -16]!
 
 	// stash registers
@@ -26,7 +26,7 @@ push:
 	str x0, [x20] // *head = new
 
 	ldp x20, x21, [sp], 16
-	ldp x19, x30, [sp], 16
+	ldr x30, [sp], 16
 	ret
 
 die:
@@ -51,7 +51,7 @@ pop:
 
 
 traverse:
-	stp x19, x30, [sp, -16]!
+	str x30, [sp, -16]!
 	stp x20, x21, [sp, -16]!
 
 	ldr x20, [x0] // x20 = *head
@@ -66,7 +66,7 @@ loop:
 
 done:
 	ldp x20, x21, [sp], 16
-	ldp x19, x30, [sp], 16
+	ldr x30, [sp], 16
 	ret
 
 
