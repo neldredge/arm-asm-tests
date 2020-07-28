@@ -1,4 +1,4 @@
-TARGETS = add/add hello/hello fib/fib list/list
+TARGETS = add/add hello/hello fib/fib list/list simd/add4
 
 CFLAGS=-g -Wall -W
 
@@ -26,8 +26,12 @@ list/main.o : list/list.h
 list/list : $(LIST_OBJS)
 	$(CC) -o $@ $(LIST_OBJS)
 
+SIMD_OBJS = simd/main.o simd/add4.o
 
-ALL_OBJS = $(ADD_OBJS) $(HELLO_OBJS) $(FIB_OBJS)
+simd/add4 : $(SIMD_OBJS)
+	$(CC) -o $@ $(SIMD_OBJS)
+
+ALL_OBJS = $(ADD_OBJS) $(HELLO_OBJS) $(FIB_OBJS) $(LIST_OBJS) $(SIMD_OBJS)
 
 clean :
 	rm $(TARGETS) $(ALL_OBJS)
