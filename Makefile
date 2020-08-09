@@ -1,5 +1,8 @@
 TARGETS = add/add hello/hello fib/fib list/list simd/add4
 
+CC=aarch64-linux-gnu-gcc
+AS=aarch64-linux-gnu-as
+
 CFLAGS=-g -Wall -W
 
 all : $(TARGETS)
@@ -34,6 +37,15 @@ simd/add4 : $(SIMD_OBJS)
 ALL_OBJS = $(ADD_OBJS) $(HELLO_OBJS) $(FIB_OBJS) $(LIST_OBJS) $(SIMD_OBJS)
 
 clean :
-	rm $(TARGETS) $(ALL_OBJS)
+	rm -f $(TARGETS) $(ALL_OBJS)
 
+ARCH != uname -m
 
+ifneq ($(ARCH),aarch64)
+QEMU=qemu-aarch64
+endif
+
+test : add-test
+
+add-test : add/add
+	$(QEMU) add/add 3 4 | cmp - test/add.expected
